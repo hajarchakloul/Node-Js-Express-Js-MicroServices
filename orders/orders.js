@@ -27,3 +27,19 @@ newOrder.save().then(() => {
     .catch((err) => {
         res.status(500).send('Internal Server Error!');
     });
+
+
+    app.get('/orders', (req, res) => {
+        Order.find()
+            .then((orders) => {
+                if (orders) { 
+                    res.json(orders);
+                } else {
+                    res.status(404).send('Orders not found');
+                }
+            })
+            .catch((err) => {
+                res.status(500).send('Internal Server Error!');
+            });
+    });
+    
