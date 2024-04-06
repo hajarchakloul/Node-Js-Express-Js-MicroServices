@@ -47,3 +47,19 @@ app.get('/book/: id', (req, res) => {
     });
     
     })
+
+
+app.delete('/book/:id', (req, res) => {
+        Book.findoneAndRemove(req.params.id).then((book) => {
+        if (book) {
+        res.json('Book deleted Successfully!')
+        } else {
+        res.status(404).send('Book Not found!');
+        }
+        }).catch((err) => {
+        res.status(500).send('Internal Server Error!');
+        });
+        });
+        app.listen(port, () => {
+        console.log(`Up and Running on port ${port} - This is Book service` );
+   })
