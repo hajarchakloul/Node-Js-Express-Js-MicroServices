@@ -45,3 +45,21 @@ app.get('/customer/:id', (req, res) => {
     
     });
 })
+
+
+app.delete('/customer/:id', (req, res) => {
+    Customer.findByIdAndRemove(req.params.id).then((customer) => {
+    if (customer) {
+    res.json('customer deleted Successfully!')
+    } else {
+    res.status(404).send('Customer Not Found!');
+    }
+    }).catch((err) => {
+    res.status(500).send('Internal Server Error!');
+    
+    });
+    });
+    
+    app.listen(port, () => {
+    console.log( `Up and Running on port ${port}- This is Customer service` );
+})
