@@ -32,3 +32,18 @@ app.get('/books', (req, res) => {
     
     });
 })
+
+
+app.get('/book/: id', (req, res) => {
+    Book.findById(req.params.id).then((book) => {
+    if (book) {
+    res.json(book)
+    } else {
+    res.status(404).send('Books not found');
+    }
+    }).catch((err) => {
+    res.status(500).send('Internal Server Error!');
+    
+    });
+    
+    })
