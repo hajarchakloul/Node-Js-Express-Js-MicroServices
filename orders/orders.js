@@ -20,3 +20,10 @@ app.post('/order', (req, res) => {
         deliveryDate: req.body.deliveryDate
     });
 });
+
+newOrder.save().then(() => {
+        res.send('New order added successfully!');
+    })
+    .catch((err) => {
+        res.status(500).send('Internal Server Error!');
+    });
