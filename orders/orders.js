@@ -42,4 +42,38 @@ newOrder.save().then(() => {
                 res.status(500).send('Internal Server Error!');
             });
     });
+
+
+    app.get('/order/:id', (req, res) => {
+        Order.findById(req.params.id)
+            .then((order) => {
+                if (order) {
+                    axios.get(`http://localhost:5000/customer/${order.customerID}`)
+                        .then((customerResponse) => {
+                            let orderObject = {
+                                CustomerName: customerResponse.data.name
+                            };
+                            axios.get(`http://localhost:3000/book/${order.bookID}`)
+                                .then((bookResponse) => {
+                                    orderObject.BookTitle = bookResponse.data.title;
+                                    res.json(orderObject);
+                                })
+                                .catch((err) => {
+                                    res.status(500).send('Internal Server Error!');
+                                });
+                        })
+                        .catch((err) => {
+                            res.status(500).send('Internal Server Error!');
+                        });
+                } else {
+                    res.status(404).send('Order not found');
+                }
+            })
+            .catch((err) => {
+                res.status(500).send('Internal Server Error!');
+            });
+    });
     
+    app.listen(port, () => {
+        console.log(`Up and Running on port ${port} - This is Order service`);
+    });
