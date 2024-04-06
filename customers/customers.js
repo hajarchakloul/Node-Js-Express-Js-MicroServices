@@ -18,3 +18,16 @@ res.send('New Customer created successfully!');
 res.status(500).send('Internal Server Error!');
 })
 })
+
+app.get('/customers', (req, res) => {
+    Customer.find().then((customers) => {
+    if (customers) {
+    res.json(customers)
+    } else {
+    res.status(404).send ('customers not found');
+    }
+    }).catch((err) => {
+    res.status(500).send('Internal Server Error!');
+    
+    });
+})
