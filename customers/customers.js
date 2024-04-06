@@ -31,3 +31,17 @@ app.get('/customers', (req, res) => {
     
     });
 })
+
+
+app.get('/customer/:id', (req, res) => {
+    Customer.findById(req.params.id).then((customer) => {
+    if (customer) {
+    res.json(customer)
+    } else {
+    res.status(404).send('customer not found');
+    }
+    }).catch((err) => {
+    res.status(500).send('Internal Server Error!');
+    
+    });
+})
