@@ -1,0 +1,22 @@
+require("dotenv").config(); // Load environment variables
+const express = require('express');
+const mongoose = require("mongoose");
+const axios = require('axios');
+
+require('../db/db');
+
+const Order = require('./Order');
+
+const app = express();
+const port = 9000;
+
+app.use(express.json());
+
+app.post('/order', (req, res) => {
+    const newOrder = new Order({
+        customerID: mongoose.Types.ObjectId(req.body.customerID), // Convert customerID to ObjectId
+        bookID: mongoose.Types.ObjectId(req.body.bookID), // Convert bookID to ObjectId
+        initialDate: req.body.initialDate,
+        deliveryDate: req.body.deliveryDate
+    });
+});
